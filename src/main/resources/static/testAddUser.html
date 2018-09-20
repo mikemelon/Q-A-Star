@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>添加用户(测试版)--t1</title>
+<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+<script type="text/javascript" src="/webjars/vue/dist/vue.min.js"></script>
+<style>
+	#main{
+		margin: 0 auto;
+		width: 80%;
+		background-color: #fefefe;
+	}
+</style>
+</head>
+<body>
+	<div id="main">
+		<h1>添加用户</h1>
+		<form id="myform">
+			姓名：<input type="text" class="form-control" name="username" v-model="username">
+			密码：<input type="password" class="form-control" name="password" v-model="password">
+			<div style="height: 25px; width: 100%"></div>
+			<input type="button" class="btn btn-primary" id="addUserBtn" onclick="save()" value="添加该用户">
+		</form>
+		<div id="mynotice"><span id="noticeSpan">{{message}}</span></div>
+	</div>
+	
+	<script>
+	var app = new Vue({
+    	el:"#main",
+    	data:{
+    		message:'',
+    		username:'',
+    		password:'',
+    	},
+    });
+	function save(){
+		fetch("user",{
+				method:"POST",
+				headers:{
+					"Content-Type":"application/json",
+				},
+				body:JSON.stringify({
+					name:myform.username.value,
+					password:myform.password.value,
+				})
+		}).then((resp)=>{
+			app.message="用户\""+myform.username.value+"\"添加成功！";
+			app.password="";
+			app.username="";
+		});
+	
+	}
+	</script>
+</body>
+</html>

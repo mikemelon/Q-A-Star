@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>添加问题(测试版)--t4</title>
+<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+<script type="text/javascript" src="/webjars/vue/dist/vue.min.js"></script>
+<style>
+	#main{
+		margin: 0 auto;
+		width: 80%;
+		background-color: #fefefe;
+	}
+</style>
+</head>
+<body>
+	<div id="main">
+		<h1>添加问题</h1>
+		<h2>请写入问题内容</h2>
+		<form id="myform">
+			问题标题：<input type="text" class="form-control" name="questionTitle" v-model="title">
+			问题内容：<textarea class="form-control" rows="3" name="quesstionContent" v-model="content"></textarea>
+			<div style="height: 25px; width: 100%"></div>
+			<input type="button" class="btn btn-primary" id="addQuestionBtn" onclick="save()" value="添加该问题">
+		</form>
+		<div id="mynotice"><span id="noticeSpan">{{message}}</span></div>
+	</div>
+	
+	<script>
+	var app = new Vue({
+    	el:"#main",
+    	data:{
+    		message:'',
+    		title:'',
+    		content:'',
+    	},
+    });
+	function save(){
+		fetch("question",{
+				method:"POST",
+				headers:{
+					"Content-Type":"application/json",
+				},
+				body:JSON.stringify({
+					title:myform.questionTitle.value,
+					content:myform.quesstionContent.value,
+				})
+		}).then((resp)=>{
+			location.href="testQuestionList.html";
+		});
+	
+	}
+	</script>
+</body>
+</html>

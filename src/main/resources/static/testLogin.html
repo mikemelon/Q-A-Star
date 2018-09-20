@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户登录(测试版)--t2</title>
+<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+<script type="text/javascript" src="/webjars/vue/dist/vue.min.js"></script>
+<style>
+	#main{
+		margin: 0 auto;
+		width: 80%;
+		background-color: #fefefe;
+	}
+</style>
+</head>
+<body>
+	<div id="main">
+		<h1>登录</h1>
+		<h3>请输入用户名和密码</h3>
+		<form id="myform">
+			用户名：<input type="text" class="form-control" name="username" v-model="username">
+			密码：<input type="password" class="form-control" name="password" v-model="password">
+			<div style="height: 25px; width: 100%"></div>
+			<input type="button" id="addUserBtn" class="btn btn-primary" onclick="login()" value="登录">
+		</form>
+		<div id="mynotice"><span id="noticeSpan">{{message}}</span></div>
+	</div>
+	
+	<script>
+	var app = new Vue({
+    	el:"#main",
+    	data:{
+    		message:'',
+    		username:'',
+    		password:'',
+    	},
+    });
+	function login(){
+		fetch("login",{
+				method:"POST",
+				headers:{
+					"Content-Type":"application/json",
+				},
+				body:JSON.stringify({
+					name:myform.username.value,
+					password:myform.password.value,
+				})
+		}).then((resp)=>{return resp.json();})
+		.then((data)=>{
+//			alert(JSON.stringify(data));
+			if(data.result=='success'){
+				app.message="登录成功！";
+				location.href="testQuestionList.html";
+			}else{
+				app.message="用户名或密码错误，登录失败！";
+			}
+		});
+	
+	}
+	</script>
+</body>
+</html>
