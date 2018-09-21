@@ -1,5 +1,6 @@
 package cn.lynu.lyq.qastar.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -20,7 +21,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Answer {
+public class Answer implements Serializable{
+	private static final long serialVersionUID = 9022256973944635034L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;

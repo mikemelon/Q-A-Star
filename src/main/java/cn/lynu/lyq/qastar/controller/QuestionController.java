@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,14 +32,19 @@ public class QuestionController {
 		return questionService.findAll();
 	}
 	
-	/* 添加用户页面 上的添加用户按钮*/
+	/* 添加问题*/
 	@PostMapping(value = "/question")
-	public void addUser(@RequestBody @Valid Question question, BindingResult result, HttpSession session) {
+	public void addQuestion(@RequestBody @Valid Question question, BindingResult result, HttpSession session) {
 		log.debug("add:{}" , question);
 		User loginUser = (User)session.getAttribute("LOGIN_USER");
 		question.setUser(loginUser);
 		question.setUpdateTime(new Date());
 		questionService.save(question);
+	}
+	
+	@GetMapping(value = "/questions/id/{id}")
+	public Question findQuestionById(@PathVariable("id") Integer id) {
+		return questionService.findById(id);
 	}
 	
 	public static void main(String[] args) {
